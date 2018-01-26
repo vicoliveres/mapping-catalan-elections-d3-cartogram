@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mapping the Catalan vote</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" value="summary">
+  <meta name="twitter:site" content="@VictriaVic">
+  <meta name="twitter:title" content="Mapping the Catalan vote">
+  <meta name="twitter:creator" content="@VictriaVic">
+  <!-- Twitter Summary card images must be at least 120x120px -->
+  <meta name="twitter:image" content="catalonia-cartogram.png">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Mapping the Catalan vote" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://vicoliveres.github.io/mapping-catalan-elections-d3-cartogram" />
+  <meta property="og:image" content="catalonia-cartogram.png" />
+
+</head>
+
+<body>
+
+  <div class="container">
+    <nav class="navbar">
+      <div class="container">
+        <ul class="navbar-list">
+           <li class="navbar-item">
+             <a class="navbar-link" href="https://vicoliveres.github.io/victoria-oliveres-torrescassana-data-journalism/" target='_blank'>About me</a>
+           </li>
+           <li class="navbar-item">
+             <a class="navbar-link" href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram" target='_blank'>Data and code</a>
+           </li>
+         </ul>
+       </div>
+     </nav>
+
+   <div class="header">
+      <h2 class="title">Mapping the Catalan vote</h2>
+  </div>
+
+      <p class="byline">VICTÒRIA OLIVERES - JANUARY 2018.</p>
+      <p>Last December Catalan election was not a common one, and neither were its results. For the first time, in a Parliament of 135 members, the centre-right, pro-unionist Citizens party (<b class=cs>Ciutadans – C’s</b>) came top winning 36 seats.
+  </p>Together for Catalonia (<b class=jxcat>Junts per Catalunya - JxCat</b>), the party led by ousted president Carles Puigdemont, took 34 seats and Catalan Republican Left (<b class=erc>Esquerra Republicana de Catalunya – ERC</b>) won 32.<p>
+  </p><p>The vote was called by the Spanish president, Mariano Rajoy, although it is usually the task of the Catalan president. They were celebrated on the 21st of December, nearly three months after <a href="http://www.bbc.co.uk/news/world-europe-41463719">the 1st of October independence referendum</a>, banned by supporters of the union, and two years before the term of office end.
+  </p><p>Since <a href="http://www.bbc.co.uk/news/world-europe-41780116">Catalonia’s October’s unilateral declaration of independence</a>, the Spanish government maintained direct rule over the region. Two leaders of pro-independence parties couldn’t run the electoral campaign in Catalonia neither to attend last week’s constitution of Parliament.
+  </p><p>Carles Puigdemont (JxCat) is in self-exile in Belgium with other four former Ministers and <a href="http://www.bbc.co.uk/news/world-europe-41850094">Oriol Junqueras (ERC), deposed vice-president, is in jail since November</a>. Seven other ousted Catalan Ministers were also jailed, although four of them where released in early December. <a href="http://www.bbc.co.uk/news/world-europe-41646142">Two pro-independence activists also remain in prison</a>.
+  </p>
+
+  <h4>Winner party per county</h4>
+
+  <iframe width="100%" height="520" frameborder="0" src="https://vicoliveres.carto.com/builder/6f2a1ff7-5574-41a9-8332-893743599040/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+  <br/><p>The election was more tied than it seems in the geographical map above. In Catalonia, <a href="https://en.wikipedia.org/wiki/Catalan_regional_election,_2017">voters chose their representatives to the parliamentary chamber with a proportional system</a>. Each party gets the number of seats according to the votes it received in each of the four Catalan provincial constituencies. Parliament is then to elect the executive leader, <a href="http://www.bbc.co.uk/news/world-europe-42715013">the Catalan president</a>.
+  </p><p>The result was unequal around Catalonia, as is shown in the cartogram below where squares are adjusted to county population.
+  </p><p>While the <b class=cs>Citizens party (C’s)</b> won in fewer, more populated, urban counties like Barcelona, Tarragona and its surrounding areas; <b class=jxcat>Together for Catalonia (JxCat)</b> and <b class=erc>Catalan Republican Left (ERC)</b> prevailed in more counties, but less densely populated ones.
+  </p>
+
+    <div class="map" id=map-com-pop></div>
+
+    <p>JxCat was first in 668 municipalities, ERC in 142 and C’s in 135. However, the orange party was first in the 10th biggest Catalan cities and some other of the most populated ones in more rural areas, such as Lleida and Figueras. JxCat and ERC took some of the smaller neighbouring towns surrounding Barcelona, besides nearly all villages and small towns.
+    </p><p>To dig into the results, you can hover over the municipalities in the next cartogram and discover the percentage vote of each party that got parliamentary seats.
+    </p>
+
+    <div class="map" id="map-mun-pop"></div>
+
+    <p>Despite the big picture, the division has more details. Although the Citizens party won both in Barcelona and Tarragona, it was stronger in the later, where it achieved more than one third of the votes (36%), than in the Barcelonès, where it had a quarter of them (26%).
+    </p><p>Together for Catalonia achieved higher voting rates in the counties where it won. For example, it got more than half of the votes in Pla de l’Estany (51%).
+    </p><p>The three parties that were first in some counties are represented next. The darker the colour, the higher their voting rate.
+    </p>
+  </div>
+
+  <div class="container-columns">
+
+    <div class="column">
+      <div class="map" id=map-com-pop-cs></div>
+      <h6><b>Citizens party (C's) % vote</b></h5>
+    </div>
+
+    <div class="column">
+      <div class="map" id=map-com-pop-jxcat></div>
+      <h6>Together for Catalonia (JxCat) % vote</h6>
+    </div>
+
+    <div class="column">
+      <div class="map" id=map-com-pop-erc></div>
+      <h6>Catalan Republican Left (ERC) % vote</h6>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <br/>
+    <br/>
+
+    <h4>The vote as an independence poll</h4>
+    <p>For many, this election was a plebiscite on regional independence. That is why media and politicians grouped the votes by parties who support the Catalan republic and refuse the Spanish government control of the region and vice versa.
+    </p><p>A 47.5% of the votes was for the <b class=indepe>pro-independence parties</b> Together for Catalonia – JxCat (21.7%), Catalan Republican Left – ERC (21.4%) and Popular Unity Candidacy – CUP (4.5%). The <b class=noindepe>pro-union parties</b> achieved a 43.5%: Citizens – C’s (25.4%), Catalan Socialist Party – PSC (13.9%) and People’s Party (4.2%).
+    </p><p>That was equivalent to 70 seats, a majority in the Catalan Parliament, for pro-independence (34 for JxCat, 32 for ERC and 4 for CUP). Pro-union got 57 seats (36 for C’s, 17 for PSC and 4 for PP).
+
+    </p><p>Catalonia in Common (CatComú), with a 7.5% of the votes and 8 seats, hasn’t aligned with either side, so it is not counted in any side.
+    </p><p>Pro-union parties won in 7 counties, including the 3 most populated ones, but only achieved more than half of the votes in 3 of them. Pro-independence parties won in the 42 less populated ones but achieved higher percentage of votes, above half of them in 33 counties.
+    </p><p>The first cartogram below shows in which counties <b class=indepe>pro-independence</b> or <b class=noindepe>pro-union</b> won. The darkness of the colours is adjusted to the percentage difference between both blocs.
+    </p><p>The second cartogram shows the change since the last election of 2015, if the difference between both blocs has moved now towards a <b class=indepe>more</b> or <b class=noindepe>less</b> independence vote. . In most of the counties pro-independence vote has decreased, either because pro-union candidacies increased their voters or because pro-independence ones received less support.
+    </p>
+  </div>
+
+  <div class="container-columns">
+    <div class="column-dos">
+      <div class="map big" id=map-com-indepe></div>
+    </div>
+
+    <div class="column-dos">
+      <div class="map big" id=map-com-indepe-1715></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <br/>
+
+
+    <footer class="footer">
+      <hr/>
+      <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target='_blank'><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> <a href="https://vicoliveres.github.io/victoria-oliveres-torrescassana-data-journalism/" target='_blank'>Victòria Oliveres</a>. <a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram" target='_blank'>Get the data and code</a>.
+      <br />Website created using <a href="https://d3js.org/" target='_blank'>D3.js</a> and CSS features from <a href="https://github.com/dhg/Skeleton" target='_blank'>Skeleton</a>.
+      </p>
+    </footer>
+
+  </div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.4/d3-legend.min.js"></script>
+<script src="map-com-pop-partits.js" charset="utf-8"></script>
+</body>
