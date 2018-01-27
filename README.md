@@ -26,7 +26,7 @@ I used D3 and adapted the code from the following:
   <li><a href="https://bost.ocks.org/mike/map/">Let’s Make a Map, by Mike Bostock</a>.</li>
 </ul>  
 
-### Get the data
+## Get the data
 
 I needed 3 types of data for my visualisations:
 
@@ -47,7 +47,7 @@ I needed 3 types of data for my visualisations:
  </ul></li> 
 </ul> 
 
-## My analysis
+## Data analysis
 
 After matching the data, I put together the population data with the percentage vote of each of the seven parliamentary parties, both at municipality and county level. 
 
