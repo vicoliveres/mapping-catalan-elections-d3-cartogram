@@ -3,6 +3,18 @@
 In January 2018 <a href="https://vicoliveres.github.io/mapping-catalan-elections-d3-cartogram/">I published this data analysis of the 2017 Catalan elections outcome in relation to population</a>. 
 It's part of my work in the MA Data Journalism at Birmingham City University.
 
+<b>Cartogram: Winner party per Catalan county</b>
+![Cartogram: Winner party per Catalan county](https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/catalonia-comarques-cartogram.png)
+
+<b>Cartogram: Winner party per Catalan municipality</b>
+![Cartogram: Winner party per Catalan municipality](https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/catalonia-municipis-cartogram.png)
+
+<b>Cartograms: Percentage vote per each three winning parties, per Catalan county</b>
+![Cartograms: Percentage vote per each three winning parties per Catalan county](https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/catalonia-percentatge-cartogram.png)
+
+<b>Cartograms: Difference between pro-independence and pro-union parties and change since the last election, per Catalan county</b>
+![artograms: Difference between pro-independence and pro-union parties and change since the last election, per Catalan county](https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/catalonia-independence-union-cartogram.png)
+
 ## About the cartograms
 
 To merge election results with other variables I made <b>cartograms</b>, <a href="https://www2.cs.arizona.edu/~kobourov/star.pdf">combinations of statistical and geographical information in thematic maps</a>. 
