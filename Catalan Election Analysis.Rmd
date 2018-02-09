@@ -1,0 +1,396 @@
+---
+title: "Election results Catalonia"
+output: html_notebook
+---
+
+# Election data
+
+I want to create two databases that I can use to visualize geographical election data from the 2017 Catalan election, and make an analysis compared to 2015 election. I will need to merge it with population data and adapt it to fit another JSON file I will cross on my visualisation.
+
+## Import data, select columns and format
+
+Import the results data, previously downloaded from the Catalan Parliament website (https://resultats.parlament2017.cat/09mesas/09-mun.csv.zip) and rename useful columns.
+
+```{r}
+resultsmuni17 <- read.csv2('09-mun.csv', stringsAsFactors = F, skip = 3, header = T)
+colnames(resultsmuni17)[17] <- "Cs"
+colnames(resultsmuni17)[18] <- "CsPtg"
+colnames(resultsmuni17)[19] <- "JxCat"
+colnames(resultsmuni17)[20] <- "JxCatPtg"
+colnames(resultsmuni17)[21] <- "ERC"
+colnames(resultsmuni17)[22] <- "ERCPtg"
+colnames(resultsmuni17)[23] <- "PSC"
+colnames(resultsmuni17)[24] <- "PSCPtg"
+colnames(resultsmuni17)[25] <- "CatComu"
+colnames(resultsmuni17)[26] <- "CatComuPtg"
+colnames(resultsmuni17)[27] <- "CUP"
+colnames(resultsmuni17)[28] <- "CUPPtg"
+colnames(resultsmuni17)[29] <- "PP"
+colnames(resultsmuni17)[30] <- "PPPtg"
+```
+
+Select useful columns.
+
+```{r}
+votsmuni17 <- resultsmuni17[c(1,2,3,5,17,19,21,23,25,27,29,39,40)]
+```
+
+Deal with format problems: period used as thousand separator in original data. 
+
+```{r}
+votsmuni17$Votants <- as.numeric(gsub("\\.", "", votsmuni17$Votants))
+votsmuni17$Cs <- as.numeric(gsub("\\.", "", votsmuni17$Cs))
+votsmuni17$JxCat <- as.numeric(gsub("\\.", "", votsmuni17$JxCat))
+votsmuni17$ERC <- as.numeric(gsub("\\.", "", votsmuni17$ERC))
+votsmuni17$PSC <- as.numeric(gsub("\\.", "", votsmuni17$PSC))
+votsmuni17$CatComu <- as.numeric(gsub("\\.", "", votsmuni17$CatComu))
+votsmuni17$CUP <- as.numeric(gsub("\\.", "", votsmuni17$CUP))
+votsmuni17$PP <- as.numeric(gsub("\\.", "", votsmuni17$PP))
+```
+
+## Winner party per municipality
+
+Search for the column name (party) of the highest value of every row for a specific range of columns (parties votes).
+
+```{r}
+votsmuni17$partit <- colnames(votsmuni17[5:11])[apply(votsmuni17[5:11],1,which.max)]
+```
+
+## Import population data
+
+Previously downloaded from the Statistical Institute of Catalonia, Idescat (https://www.idescat.cat/pub/?id=aec&n=925).
+
+```{r}
+library(readxl)
+popmuni <- read_excel('poblaciocat.xlsx', skip = 9, col_names = c("Nom.municipi", "Comarca", "idmun", "Altitud", "Superficie", "popmun"))
+```
+
+## Create id's to merge
+
+The data in the election results data has the municipalities IDs separated in different columns, I need to make different variations of the code to merge them in a new column.
+
+```{r}
+id1 <- paste(votsmuni17$Codi.circumscripció[1:9], votsmuni17$Codi.municipi[1:9], sep='00')
+id2 <- paste(votsmuni17$Codi.circumscripció[10:99], votsmuni17$Codi.municipi[10:99], sep='0')
+id3 <- paste(votsmuni17$Codi.circumscripció[100:312], votsmuni17$Codi.municipi[100:312], sep='')
+id4 <- paste(votsmuni17$Codi.circumscripció[313:321], votsmuni17$Codi.municipi[313:321], sep='00')
+id5 <- paste(votsmuni17$Codi.circumscripció[322:406], votsmuni17$Codi.municipi[322:406], sep='0')
+id6 <- paste(votsmuni17$Codi.circumscripció[407:534], votsmuni17$Codi.municipi[407:534], sep='')
+id7 <- paste(votsmuni17$Codi.circumscripció[535:543], votsmuni17$Codi.municipi[535:543], sep='00')
+id8 <- paste(votsmuni17$Codi.circumscripció[544:621], votsmuni17$Codi.municipi[544:621], sep='0')
+id9 <- paste(votsmuni17$Codi.circumscripció[622:766], votsmuni17$Codi.municipi[622:766], sep='')
+id10 <- paste(votsmuni17$Codi.circumscripció[767:775], votsmuni17$Codi.municipi[767:775], sep='00')
+id11 <- paste(votsmuni17$Codi.circumscripció[776:864], votsmuni17$Codi.municipi[776:864], sep='0')
+id12 <- paste(votsmuni17$Codi.circumscripció[865:951], votsmuni17$Codi.municipi[865:951], sep='')
+votsmuni17$idcurt <- c(id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12)
+```
+
+I also need to shorten the IDs of the population dataset, so they will match.
+
+```{r}
+library(stringr)
+popmuni$idcurt <- str_sub(popmuni$idmun, 1, -2)
+```
+
+## Merge all data and select columns
+
+```{r}
+votspopmuni17 <- merge(votsmuni17, popmuni, by.x = "idcurt", by.y = "idcurt")
+```
+
+```{r}
+votspopmuni17 <- votspopmuni17[c(1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 21)]
+```
+
+# Analysis of pro-independence and pro-union votes
+
+Create new columns of the sums of both blocs.
+
+```{r}
+votspopmuni17$Indepe <- rowSums(votspopmuni17[, c("JxCat", "ERC", "CUP")])
+votspopmuni17$NoIndepe <- rowSums(votspopmuni17[, c("Cs", "PSC", "PP")])
+```
+
+## Add 2015 results and merge
+
+Import data from previous 2015 Catalonia election, previously downloaded from the Catalan Government webpage (http://www.gencat.cat/governacio/resultatsparlament2015/resu/09mesas/ELECCIONS_PARLAMENT_CATALUNYA_2015.zip).
+
+```{r}
+library(readxl)
+resultsmuni15 <- read_excel('ELECCIONS_PARLAMENT_CATALUNYA_2015.xlsx', sheet=4, skip = 2)
+votsmuni15 <- resultsmuni15[c(1,5,6,8,20,22,24,26,28,30)]
+colnames(votsmuni15) <- c("Codi.circumscripció", "Codi.municipi", "Nom.municipi", "Votants", "JxSi", "Cs", "PSC", "CSQeP", "PP", "CUP")
+
+```
+
+Create merged ID's like before.
+
+```{r}
+id1 <- paste(votsmuni15$Codi.circumscripció[1:9], votsmuni15$Codi.municipi[1:9], sep='00')
+id2 <- paste(votsmuni15$Codi.circumscripció[10:99], votsmuni15$Codi.municipi[10:99], sep='0')
+id3 <- paste(votsmuni15$Codi.circumscripció[100:312], votsmuni15$Codi.municipi[100:312], sep='')
+id4 <- paste(votsmuni15$Codi.circumscripció[313:321], votsmuni15$Codi.municipi[313:321], sep='00')
+id5 <- paste(votsmuni15$Codi.circumscripció[322:406], votsmuni15$Codi.municipi[322:406], sep='0')
+id6 <- paste(votsmuni15$Codi.circumscripció[407:534], votsmuni15$Codi.municipi[407:534], sep='')
+id7 <- paste(votsmuni15$Codi.circumscripció[535:543], votsmuni15$Codi.municipi[535:543], sep='00')
+id8 <- paste(votsmuni15$Codi.circumscripció[544:621], votsmuni15$Codi.municipi[544:621], sep='0')
+id9 <- paste(votsmuni15$Codi.circumscripció[622:766], votsmuni15$Codi.municipi[622:766], sep='')
+id10 <- paste(votsmuni15$Codi.circumscripció[767:775], votsmuni15$Codi.municipi[767:775], sep='00')
+id11 <- paste(votsmuni15$Codi.circumscripció[776:864], votsmuni15$Codi.municipi[776:864], sep='0')
+id12 <- paste(votsmuni15$Codi.circumscripció[865:951], votsmuni15$Codi.municipi[865:951], sep='')
+votsmuni15$idcurt <- c(id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12)
+```
+
+Sum blocs.
+
+```{r}
+votsmuni15$Indepe15 <- rowSums(votsmuni15[, c("JxSi", "CUP")])
+votsmuni15$NoIndepe15 <- rowSums(votsmuni15[, c("Cs", "PSC", "PP")])
+```
+
+Merge selected columns from both datasets.
+
+```{r}
+votspopmuni <- merge(votspopmuni17, votsmuni15, by.x = "idcurt", by.y = "idcurt")
+votspopmuni <- votspopmuni[c(1:17, 21, 28, 29)]
+colnames(votspopmuni) <- c("idcurt", "namemun", "votants17", "Cs", "JxCat", "ERC", "PSC", "CatComu", "CUP", "PP", "CodiComarca", "NomComarca", "partitmun", "idmun", "popmun", "indepe17", "noindepe17", "votants15", "indepe15", "noindepe15")
+```
+
+# Group by county
+
+Group municipalities by county and repeat the analysis to create the second dataset.
+
+```{r}
+library(dplyr)
+votspopcom <- votspopmuni %>% select(votants17, Cs, JxCat, ERC, PSC, CatComu, CUP, PP, popmun, indepe17, noindepe17, votants15, indepe15, noindepe15, NomComarca, CodiComarca) %>% group_by(NomComarca) %>% summarise(votants17=sum(votants17), Cs=sum(Cs), JxCat=sum(JxCat), ERC=sum(ERC), PSC=sum(PSC), CatComu=sum(CatComu), CUP=sum(CUP), PP=sum(PP), popmun=sum(popmun), indepe17=sum(indepe17), noindepe17=sum(noindepe17), votants15=sum(votants15), indepe15=sum(indepe15), noindepe15=sum(noindepe15), CodiComarca=mean(CodiComarca))
+
+```
+
+## Winner party per county 
+
+```{r}
+votspopcom$partit <- colnames(votspopcom[3:9])[apply(votspopcom[3:9],1,which.max)]
+```
+
+
+## Calculate percentages
+
+Calculate percentage rate of vote per party and bloc.
+
+```{r}
+votspopcom$PtgCs <- (votspopcom$Cs/votspopcom$votants17)*100
+votspopcom$PtgJxCat <- (votspopcom$JxCat/votspopcom$votants17)*100
+votspopcom$PtgERC <- (votspopcom$ERC/votspopcom$votants17)*100
+votspopcom$PtgPSC <- (votspopcom$PSC/votspopcom$votants17)*100
+votspopcom$PtgCatComu <- (votspopcom$CatComu/votspopcom$votants17)*100
+votspopcom$PtgCUP <- (votspopcom$CUP/votspopcom$votants17)*100
+votspopcom$PtgPP <- (votspopcom$PP/votspopcom$votants17)*100
+votspopcom$PtgIndepe <- (votspopcom$indepe17/votspopcom$votants17)*100
+votspopcom$PtgNoIndepe <- (votspopcom$noindepe17/votspopcom$votants17)*100
+votspopcom$PtgIndepe15 <- (votspopcom$indepe15/votspopcom$votants15)*100
+votspopcom$PtgNoIndepe15 <- (votspopcom$noindepe15/votspopcom$votants15)*100
+
+```
+
+# More pro-independence or pro-union?
+
+Calculate difference between blocs. This is important because only showing the change of one of the values is not the opposite of the other, as not all the parties have been counted, therefore their percentages don't sum 100%.
+
+Also calculate the difference between blocs in the past and the change between both differences.
+
+```{r}
+votspopcom$Dif <- (votspopcom$PtgIndepe - votspopcom$PtgNoIndepe)
+votspopcom$Dif15 <- (votspopcom$PtgIndepe15 - votspopcom$PtgNoIndepe15)
+votspopcom$CanviPast <- (votspopcom$Dif - votspopcom$Dif15)
+```
+
+Add new columns useful for the tooltips in the visualisation. 
+
+```{r}
+votspopcom$BlocDifPast <- ifelse(votspopcom$CanviPast < 0,"more pro-union","more pro-indy")
+votspopcom$CanviSenseSigne <- abs(votspopcom$CanviPast)
+```
+
+## Ordering the dataset
+
+Change column names. 
+
+```{r}
+colnames(votspopcom)[1] <- "name"
+colnames(votspopcom)[10] <- "pop"
+colnames(votspopcom)[16] <- "id"
+```
+
+Select columns,
+
+```{r}
+datapopwinner <- votspopcom[c("id","name","name","pop","partit","PtgCs","PtgJxCat","PtgERC","PtgPSC","PtgCatComu","PtgCUP","PtgPP","PtgIndepe","PtgNoIndepe","Dif","CanviPast","BlocDifPast","CanviSenseSigne")]
+```
+
+```{r}
+colnames(datapopwinner)[3] <- "abbr"
+```
+
+## Round to 2 decimal places
+
+```{r}
+datapopwinner$PtgCs <- round(datapopwinner$PtgCs, 2)
+datapopwinner$PtgJxCat <- round(datapopwinner$PtgJxCat, 2)
+datapopwinner$PtgERC <- round(datapopwinner$PtgERC, 2)
+datapopwinner$PtgPSC <- round(datapopwinner$PtgPSC, 2)
+datapopwinner$PtgCatComu <- round(datapopwinner$PtgCatComu, 2)
+datapopwinner$PtgCUP <- round(datapopwinner$PtgCUP, 2)
+datapopwinner$PtgPP <- round(datapopwinner$PtgPP, 2)
+datapopwinner$PtgIndepe <- round(datapopwinner$PtgIndepe, 2)
+datapopwinner$PtgNoIndepe <- round(datapopwinner$PtgNoIndepe, 2)
+datapopwinner$Dif <- round(datapopwinner$Dif, 2)
+datapopwinner$CanviPast <- round(datapopwinner$CanviPast, 2)
+datapopwinner$CanviSenseSigne <- round(datapopwinner$CanviSenseSigne, 2)
+```
+
+## Add name abbreviations for the visualisation
+
+```{r}
+datapopwinner$abbr[2] <- "A E"
+datapopwinner$abbr[3] <- "A P"
+datapopwinner$abbr[6] <- "A"
+datapopwinner$abbr[8] <- "B"
+datapopwinner$abbr[9] <- "B C"
+datapopwinner$abbr[10] <- "BE"
+datapopwinner$abbr[11] <- "B E"
+datapopwinner$abbr[12] <- "B Ll"
+datapopwinner$abbr[13] <- "B P"
+datapopwinner$abbr[14] <- "B"
+datapopwinner$abbr[18] <- "G"
+datapopwinner$abbr[21] <- "G"
+datapopwinner$abbr[22] <- "M"
+datapopwinner$abbr[24] <- "M"
+datapopwinner$abbr[26] <- "O"
+datapopwinner$abbr[35] <- "S"
+datapopwinner$abbr[36] <- "S"
+datapopwinner$abbr[38] <- "T"
+datapopwinner$abbr[41] <- "V Occ"
+datapopwinner$abbr[42] <- "V Or"
+```
+
+# Export county dataset
+
+Encode names. 
+```{r}
+datapopwinner$name <- enc2utf8(datapopwinner$name)
+```
+
+```{r}
+write.csv(datapopwinner, "data-pop-winner.csv", quote = F, row.names = F, fileEncoding = "UTF-8")
+```
+
+## Calculate percentages
+
+Finish with municipalities analisys.
+
+```{r}
+votspopmuni$PtgCsMun <- (votspopmuni$Cs/votspopmuni$votants17)*100
+votspopmuni$PtgJxCatMun <- (votspopmuni$JxCat/votspopmuni$votants17)*100
+votspopmuni$PtgERCMun <- (votspopmuni$ERC/votspopmuni$votants17)*100
+votspopmuni$PtgPSCMun <- (votspopmuni$PSC/votspopmuni$votants17)*100
+votspopmuni$PtgCatComuMun <- (votspopmuni$CatComu/votspopmuni$votants17)*100
+votspopmuni$PtgCUPMun <- (votspopmuni$CUP/votspopmuni$votants17)*100
+votspopmuni$PtgPPMun <- (votspopmuni$PP/votspopmuni$votants17)*100
+votspopmuni$PtgIndepeMun <- (votspopmuni$indepe17/votspopmuni$votants17)*100
+votspopmuni$PtgNoIndepeMun <- (votspopmuni$noindepe17/votspopmuni$votants17)*100
+votspopmuni$PtgIndepe15Mun <- (votspopmuni$indepe15/votspopmuni$votants15)*100
+votspopmuni$PtgNoIndepe15Mun <- (votspopmuni$noindepe15/votspopmuni$votants15)*100
+
+```
+
+# More pro-independence or pro-union?
+
+```{r}
+votspopmuni$DifMun <- (votspopmuni$PtgIndepeMun - votspopmuni$PtgNoIndepeMun)
+votspopmuni$Dif15Mun <- (votspopmuni$PtgIndepe15Mun - votspopmuni$PtgNoIndepe15Mun)
+votspopmuni$CanviPastMun <- (votspopmuni$DifMun - votspopmuni$Dif15Mun)
+```
+
+```{r}
+votspopmuni$BlocDifPastMun <- ifelse(votspopmuni$CanviPastMun < 0,"more pro-union","more pro-indy")
+votspopmuni$CanviSenseSigneMun <- abs(votspopmuni$CanviPastMun)
+```
+
+## Select columns for exporting county CSV
+
+```{r}
+datapopmunwinner <- votspopmuni[c("idmun","namemun","namemun","popmun","partitmun","PtgCsMun","PtgJxCatMun","PtgERCMun","PtgPSCMun","PtgCatComuMun","PtgCUPMun","PtgPPMun","PtgIndepeMun","PtgNoIndepeMun","DifMun","CanviPastMun","BlocDifPastMun","CanviSenseSigneMun")]
+```
+
+```{r}
+colnames(datapopmunwinner)[3] <- "abbrmun"
+```
+
+## Round to 2 decimal places
+
+```{r}
+datapopmunwinner$PtgCsMun <- round(datapopmunwinner$PtgCsMun, 2)
+datapopmunwinner$PtgJxCatMun <- round(datapopmunwinner$PtgJxCatMun, 2)
+datapopmunwinner$PtgERCMun <- round(datapopmunwinner$PtgERCMun, 2)
+datapopmunwinner$PtgPSCMun <- round(datapopmunwinner$PtgPSCMun, 2)
+datapopmunwinner$PtgCatComuMun <- round(datapopmunwinner$PtgCatComuMun, 2)
+datapopmunwinner$PtgCUPMun <- round(datapopmunwinner$PtgCUPMun, 2)
+datapopmunwinner$PtgPPMun <- round(datapopmunwinner$PtgPPMun, 2)
+datapopmunwinner$PtgIndepeMun <- round(datapopmunwinner$PtgIndepeMun, 2)
+datapopmunwinner$PtgNoIndepeMun <- round(datapopmunwinner$PtgNoIndepeMun, 2)
+datapopmunwinner$DifMun <- round(datapopmunwinner$DifMun, 2)
+datapopmunwinner$CanviPastMun <- round(datapopmunwinner$CanviPastMun, 2)
+datapopmunwinner$CanviSenseSigneMun <- round(datapopmunwinner$CanviSenseSigneMun, 2)
+```
+
+## Add name abbreviations for the visualisation
+
+```{r}
+datapopmunwinner$abbrmun[655] <- "Bcn"
+datapopmunwinner$abbrmun[651] <- "Bdn"
+datapopmunwinner$abbrmun[74] <- "G"
+datapopmunwinner$abbrmun[737] <- "L'H"
+datapopmunwinner$abbrmun[324] <- "LL"
+datapopmunwinner$abbrmun[821] <- "S"
+datapopmunwinner$abbrmun[879] <- "SCo"
+datapopmunwinner$abbrmun[757] <- "M"
+datapopmunwinner$abbrmun[574] <- "R"
+datapopmunwinner$abbrmun[913] <- "T"
+datapopmunwinner$abbrmun[599] <- "Tgn"
+```
+
+## Addapt IDs
+
+```{r}
+datapopmunwinner$idmun <- as.character(datapopmunwinner$idmun)
+```
+
+```{r}
+idmuni1 <-  paste(datapopmunwinner$idmun[1:636])
+idmuni2 <-  paste('0', datapopmunwinner$idmun[637:947], sep="")
+idmuni <- c(idmuni1, idmuni2)
+View(idmuni)
+```
+
+```{r}
+datapopmunwinner$idmun <- idmuni
+```
+
+
+# Export municipalities dataset
+
+```{r}
+datapopmunwinner$namemun <- enc2utf8(datapopmunwinner$namemun)
+```
+
+```{r}
+write.csv(datapopmunwinner, "data-popmun-winner.csv", row.names = F, fileEncoding = "UTF-8")
+```
+
+# Export datasets with more information
+
+
+```{r}
+write.csv(votspopcom, "data-com-full.csv", row.names = F, fileEncoding = "UTF-8")
+write.csv(votspopmuni, "data-muni-full.csv", row.names = F, fileEncoding = "UTF-8")
+```
