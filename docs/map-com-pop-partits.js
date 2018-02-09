@@ -114,7 +114,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "C's: " + cs.get(d.properties.CODICOMAR) + "% <br/>"
@@ -149,7 +149,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "C's: " + cs.get(d.properties.CODICOMAR) + "% <br/>"
@@ -287,7 +287,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "C's: " + cs.get(d.properties.CODICOMAR) + "%");
@@ -317,7 +317,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "C's: " + cs.get(d.properties.CODICOMAR));
@@ -449,7 +449,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "JxCat: " + jxcat.get(d.properties.CODICOMAR) + "%");
@@ -478,7 +478,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "JxCat: " + jxcat.get(d.properties.CODICOMAR));
@@ -610,7 +610,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "ERC: " + erc.get(d.properties.CODICOMAR) + "%");
@@ -639,7 +639,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "ERC: " + erc.get(d.properties.CODICOMAR));
@@ -789,7 +789,7 @@ function ready(error, cat, data) {
         tooltip.transition()
             .duration(100)
             .style("opacity", .9)
-            .style("left", (d3.event.pageX - 56) + "px")
+            .style("left", (d3.event.pageX - 5) + "px")
             .style("top", (d3.event.pageY + 5) + "px");
 
         tooltip.html("<b>" + namelongmun.get(d.properties.CODIMUNI) + "</b><br/>"
@@ -826,7 +826,7 @@ function ready(error, cat, data) {
         tooltip.transition()
             .duration(100)
             .style("opacity", .9)
-            .style("left", (d3.event.pageX - 56) + "px")
+            .style("left", (d3.event.pageX - 5) + "px")
             .style("top", (d3.event.pageY + 5) + "px");
 
         tooltip.html("<b>" + namelongmun.get(d.properties.CODIMUNI) + "</b><br/>"
@@ -974,7 +974,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
               + "Pro-indy: " + indepe.get(d.properties.CODICOMAR) + "% <br/>"
@@ -1005,7 +1005,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
           tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
                   + "Pro-indy: " + indepe.get(d.properties.CODICOMAR) + "% <br/>"
@@ -1153,7 +1153,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
           tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
                   + "Change since 2015: " + canvipastsense.get(d.properties.CODICOMAR) + " points " + blocdifpast.get(d.properties.CODICOMAR));
@@ -1182,7 +1182,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
           tooltip.html("<b>" + namelong.get(d.properties.CODICOMAR) + "</b><br/>"
                   + "Change since 2015: " + canvipastsense.get(d.properties.CODICOMAR) + " points " + blocdifpast.get(d.properties.CODICOMAR));
@@ -1321,7 +1321,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelongmun.get(d.properties.CODIMUNI) + "</b><br/>"
               + "Pro-indy: " + indepemun.get(d.properties.CODIMUNI) + "% <br/>"
@@ -1352,7 +1352,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
           tooltip.html("<b>" + namelongmun.get(d.properties.CODIMUNI) + "</b><br/>"
                   + "Pro-indy: " + indepemun.get(d.properties.CODIMUNI) + "% <br/>"
@@ -1499,7 +1499,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
       tooltip.html("<b>" + namelongmun.get(d.properties.CODIMUNI) + "</b><br/>"
               + "Change since 2015: " + canvipastsensemun.get(d.properties.CODIMUNI) + " points " + blocdifpastmun.get(d.properties.CODIMUNI)
@@ -1529,7 +1529,7 @@ function ready(error, cat, data) {
       tooltip.transition()
           .duration(100)
           .style("opacity", .9)
-          .style("left", (d3.event.pageX - 56) + "px")
+          .style("left", (d3.event.pageX - 5) + "px")
           .style("top", (d3.event.pageY + 5) + "px");
           tooltip.html("<b>" + namelongmun.get(d.properties.CODIMUNI) + "</b><br/>"
                   + "Change since 2015: " + canvipastsensemun.get(d.properties.CODIMUNI) + " points " + blocdifpastmun.get(d.properties.CODIMUNI)
