@@ -15,6 +15,9 @@ It's part of my work in the MA Data Journalism at Birmingham City University.
 <b>Cartograms: Difference between pro-independence and pro-union parties and change since the last election, per Catalan county</b>
 ![artograms: Difference between pro-independence and pro-union parties and change since the last election, per Catalan county](https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/catalonia-independence-union-cartogram.png)
 
+<b>Cartograms: Difference between pro-independence and pro-union parties and change since the last election, per Catalan municipality</b>
+![artograms: Difference between pro-independence and pro-union parties and change since the last election, per Catalan municipality](https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/catalonia-independence-union-municipis-cartogram.png)
+
 ## About the cartograms
 
 To merge election results with other variables I made <b>cartograms</b>, <a href="https://www2.cs.arizona.edu/~kobourov/star.pdf">combinations of statistical and geographical information in thematic maps</a>. 
@@ -24,6 +27,7 @@ I used D3 and adapted the code from the following:
   <li><a href="https://bl.ocks.org/martgnz/34880f7320eb5a6745e2ed7de7914223">Catalan comarques cartogram, by Martin Gonzalez</a>.</li>
   <li><a href="http://bl.ocks.org/d3noob/a22c42db65eb00d4e369">Tooltips, by d3noob</a>.</li>
   <li><a href="https://bost.ocks.org/mike/map/">Let’s Make a Map, by Mike Bostock</a>.</li>
+  <li><a href="https://teslabs.com/articles/topojson-catalonia/">TopoJSON maps for Catalonia, by Gerard Marull</a>.</li>
 </ul>  
 
 ## Get the data
@@ -38,7 +42,7 @@ I needed 3 types of data for my visualisations:
     </ul></li> 
  <li>Statistical:
     <ul>
-      <li><a href="http://www.idescat.cat/pub/?id=aec&n=246">Population from the Statistical Institute of Catalonia (Idescat)</a>.</li>
+      <li><a href="https://www.idescat.cat/pub/?id=aec&n=925">Population from the Statistical Institute of Catalonia (Idescat)</a>.</li>
     </ul></li> 
 <li>Election results:
   <ul>
@@ -49,13 +53,16 @@ I needed 3 types of data for my visualisations:
 
 ## Data analysis
 
-After matching the data, I put together the population data with the percentage vote of each of the seven parliamentary parties, both at municipality and county level. 
+After matching the data, I put together the population data with the percentage vote of each of the seven parliamentary parties, both at municipality and county level. I also calculated the difference between pro-independence and pro-union vote, and the change of it since the last 2015 election.
 
-I also calculated the difference between pro-independence and pro-union vote, and the change of it since the last election.
+You can find the analysis I did in this <a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/Catalan%20Election%20Analysis.Rmd">R notebook</a>. 
 
+From there, I exported these CSV files:
   <ul>
-    <li><a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/docs/data-pop-winner.csv">CSV: Results and population per county</a>.</li>
-    <li><a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/docs/data-popmun-winner.csv">CSV: Results and population per municipality</a>.</li>
+    <li><a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/docs/data-pop-winner.csv">CSV: Results and population per county - For visualisation</a>.</li>
+    <li><a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/docs/data-popmun-winner.csv">CSV: Results and population per municipality - For visualisation</a>.</li>
+     <li><a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/data-com-full.csv">CSV: Results and population per county - Extra detail</a>.</li>
+    <li><a href="https://github.com/vicoliveres/mapping-catalan-elections-d3-cartogram/blob/master/data-muni-full.csv">CSV: Results and population per municipality - Extra detail</a>.</li>
   </ul>
 
 ## Get the code
