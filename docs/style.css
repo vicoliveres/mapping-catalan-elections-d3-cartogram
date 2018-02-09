@@ -50,6 +50,7 @@ body {
     color: #730087;
   }
 
+/* From getskeleton.com (The MIT License - Copyright (c) 2011-2014 Dave Gamache) */
   /* Larger than smartphone */
   @media (min-width: 368px) {
     /* Navbar */
@@ -98,7 +99,7 @@ body {
   }
 
 
-/* Typography
+/* Typography From getskeleton.com (The MIT License - Copyright (c) 2011-2014 Dave Gamache) 
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
@@ -125,7 +126,7 @@ p {
   margin-top: 0; }
 
 
-/* Links
+/* Links From getskeleton.com (The MIT License - Copyright (c) 2011-2014 Dave Gamache) 
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
   color: black; }
